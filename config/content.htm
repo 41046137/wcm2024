@@ -5,7 +5,267 @@
 <p>簡報: <a href="https://mde.tw/wcm2024/reveal">https://mde.tw/wcm2024/reveal</a> </p>
 <p>倉儲: <a href="https://github.com/mdecycu/wcm2024">https://github.com/mdecycu/wcm2024</a> </p>
 <p></p>
-<h1>專題</h1>
+<h1>程式執行</h1>
+<p><span>以下的 html 取自: </span><a href="https://mde.tw/wcm2024/downloads/brython_on_editor.txt">https://mde.tw/wcm2024/downloads/brython_on_editor.txt</a></p>
+<hr/>
+<p>這個頁面 demo 如何在同一頁面下納入多個線上 Ace 編輯器與執行按鈕 (<a href="/downloads/practice_html.txt">practice_html.txt</a> 動態頁面超文件).</p>
+<p><a href="/downloads/practice_html.txt">practice_html.txt</a> 動態頁面超文件應該可以在啟動 Brython 時, 設定將 .py 檔案放入 downloads/py 目錄中引用.</p>
+<p>亦即將所有對應的 html 也使用 Brython 產生, 然後寫為 <a href="https://docs.python.org/3/tutorial/classes.html">class</a> 後, 在範例導入時透過 <a href="https://docs.python.org/3/tutorial/classes.html#instance-objects">instance</a> 引用.</p>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">&lt;!-- 啟動 Brython --&gt;
+&lt;script&gt;
+window.onload=function(){
+brython({debug:1, pythonpath:['/static/','./../downloads/py/']});
+}
+&lt;/script&gt;</pre>
+<p>從 1 累加到 100:</p>
+<p><button id="add1to100">1 add to 100</button></p>
+<p>將 iterable 與 iterator <a href="https://home.gamer.com.tw/creationDetail.php?sn=4337438">相關說明</a>, 利用 Brython 與 Ace Editor 整理在這個頁面.</p>
+<!-- 導入 brython 程式庫 -->
+<p>
+<script src="/static/brython.js"></script>
+<script src="/static/brython_stdlib.js"></script>
+</p>
+<!-- 啟動 Brython -->
+<p>
+<script>
+window.onload=function(){
+brython({debug:1, pythonpath:['/static/','./../downloads/py/']});
+}
+</script>
+</p>
+<p><!-- 導入 FileSaver 與 filereader --></p>
+<p>
+<script src="/static/ace/FileSaver.min.js" type="text/javascript"></script>
+<script src="/static/ace/filereader.js" type="text/javascript"></script>
+</p>
+<p><!-- 導入 ace --></p>
+<p>
+<script src="/static/ace/ace.js" type="text/javascript"></script>
+<script src="/static/ace/ext-language_tools.js" type="text/javascript"></script>
+<script src="/static/ace/mode-python3.js" type="text/javascript"></script>
+<script src="/static/ace/snippets/python.js" type="text/javascript"></script>
+</p>
+<p><!-- 導入 gearUtils-0.9.js Cango 齒輪繪圖程式庫 -->
+<script src="/static/Cango-24v03-min.js"></script>
+<script src="/static/gearUtils-09.js"></script>
+<script src="/static/SVGpathUtils-6v03-min.js"></script>
+<script src="/static/sylvester.js"></script>
+<script src="/static/PrairieDraw.js"></script>
+</p>
+<p><!-- 請注意, 這裡使用 Javascript 將 localStorage["kw_py_src1"] 中存在近端瀏覽器的程式碼, 由使用者決定存檔名稱--></p>
+<p>
+<script type="text/javascript">
+function doSave(storage_id, filename){
+    var blob = new Blob([localStorage[storage_id]], {type: "text/plain;charset=utf-8"});
+    filename = document.getElementById(filename).value
+    saveAs(blob, filename+".py");
+}
+</script>
+</p>
+<p>
+<script type="text/python3">
+from browser import document as doc
+import ace
+# 清除畫布
+def clear_bd1(ev):
+    bd = doc["brython_div1"]
+    bd.clear()
+Ace1 = ace.Editor(editor_id="kw_editor1", console_id="kw_console1", container_id="kw__container1", storage_id="kw_py_src1" )
+# 從 gist 取出程式碼後, 放入 editor 作為 default 程式
+def run1():
+    # 利用 get 取下 src 變數值
+    try:
+        url = doc.query["src"]
+    except:
+        url = "https://gist.githubusercontent.com/mdecourse/0229a8a017091476a79700b8a190f185/raw/c3a6deaf717f8f2739a4b1392a5ab10936e9693a/from_1_add_to_10_1.py"
+    prog = open(url).read()
+
+    # 將程式載入編輯區
+    Ace1.editor.setValue(prog)
+    Ace1.editor.scrollToRow(0)
+    Ace1.editor.gotoLine(0)
+    # 直接執行程式
+    #ns = {'__name__':'__main__'}
+    #exec(prog, ns)
+    # 按下 run 按鈕
+    Ace1.run()
+
+# 執行程式, 顯示輸出結果與清除輸出結果及對應按鈕綁定
+doc['kw_run1'].bind('click', Ace1.run)
+doc['kw_show_console1'].bind('click', Ace1.show_console)
+doc['kw_clear_console1'].bind('click', Ace1.clear_console)
+doc['clear_bd1'].bind('click', clear_bd1)
+# 呼叫函式執行
+run1()
+</script>
+</p>
+<p><!-- add 1 to 100 開始 -->
+<script type="text/python3">
+from browser import document as doc
+import ace
+
+# 清除畫布
+def clear_bd1(ev):
+    bd = doc["brython_div1"]
+    bd.clear()
+
+# 利用 ace 中的 Editor 建立 Ace2 物件, 其中的輸入變數分別對應到頁面中的編輯區物件
+Ace2 = ace.Editor(editor_id="kw_editor1", console_id="kw_console1", container_id="kw__container1", storage_id="kw_py_src1" )
+
+add1to100_url = "https://gist.githubusercontent.com/mdecourse/0229a8a017091476a79700b8a190f185/raw/c48e37714f055c3a0027cbfef59e442a6ef659b9/from_1_add_to_100_1.py"
+
+# 從 gist 取得程式碼
+add_src = open(add1to100_url).read()
+def add(ev):
+    Ace2.editor.setValue(add_src)
+    Ace2.editor.scrollToRow(0)
+    Ace2.editor.gotoLine(0)
+    Ace2.run()
+
+# id 為 "add1to100" 的按鈕點按時, 執行 add 方法
+doc["add1to100"].bind('click', add)
+</script>
+</p>
+<p><!-- add 1 to 100 結束--></p>
+<!-- editor1 開始 -->
+<p><!-- 用來顯示程式碼的 editor 區域 --></p>
+<div id="kw_editor1" style="width: 600px; height: 300px;"></div>
+<p><!-- 以下的表單與按鈕與前面的 Javascript doSave 函式以及 FileSaver.min.js 互相配合 --></p>
+<p><!-- 存擋表單開始 --></p>
+<form><label>Filename: <input id="kw_filename" placeholder="input file name" type="text"/>.py</label> <input onclick="doSave('kw_py_src1', 'kw_filename1');" type="submit" value="Save"/></form>
+<p><!-- 存擋表單結束 --></p>
+<p></p>
+<p><!-- 執行與清除按鈕開始 --></p>
+<p><button id="kw_run1">Run</button> <button id="kw_show_console1">Output</button> <button id="kw_clear_console1">清除輸出區</button><button id="clear_bd1">清除繪圖區</button><button onclick="window.location.reload()">Reload</button></p>
+<p><!-- 執行與清除按鈕結束 --></p>
+<p></p>
+<p><!-- 程式執行 ouput 區 --></p>
+<div style="width: 100%; height: 100%;"><textarea autocomplete="off" id="kw_console1"></textarea></div>
+<p><!-- Brython 程式執行的結果, 都以 brython_div1 作為切入位置 --></p>
+<div id="brython_div1"></div>
+<!-- editor1 結束 --><hr/><!-- ########################################## -->
+<p>從 1 累加到 100 part2:</p>
+<p><button id="add1to100part2">1 add to 100</button><button id="cango_three_gears">cango_three_gears</button><button id="bsnake">BSnake</button><button id="aitetris">AI Tetris</button><button id="threejsblock">Rotating Block</button></p>
+<p><!-- 請注意, 這裡使用 Javascript 將 localStorage["kw_py_src2"] 中存在近端瀏覽器的程式碼, 由使用者決定存檔名稱--></p>
+<p>
+<script type="text/python3">
+from browser import document as doc
+import ace
+# 清除畫布
+def clear_bd2(ev):
+    bd = doc["brython_div2"]
+    bd.clear()
+Ace3 = ace.Editor(editor_id="kw_editor2", console_id="kw_console2", container_id="kw__container2", storage_id="kw_py_src2" )
+# 從 gist 取出程式碼後, 放入 editor 作為 default 程式
+def run2():
+    # 利用 get 取下 src 變數值
+    try:
+        url = doc.query["src2"]
+    except:
+        url = "https://gist.githubusercontent.com/mdecourse/0229a8a017091476a79700b8a190f185/raw/c3a6deaf717f8f2739a4b1392a5ab10936e9693a/from_1_add_to_10_1.py"
+    prog = open(url).read()
+
+    # 將程式載入編輯區
+    Ace3.editor.setValue(prog)
+    Ace3.editor.scrollToRow(0)
+    Ace3.editor.gotoLine(0)
+    # 直接執行程式
+    #ns = {'__name__':'__main__'}
+    #exec(prog, ns)
+    # 按下 run 按鈕
+    Ace3.run()
+
+# 執行程式, 顯示輸出結果與清除輸出結果及對應按鈕綁定
+doc['kw_run2'].bind('click', Ace3.run)
+doc['kw_show_console2'].bind('click', Ace3.show_console)
+doc['kw_clear_console2'].bind('click', Ace3.clear_console)
+doc['clear_bd2'].bind('click', clear_bd2)
+# 呼叫函式執行
+run2()
+</script>
+</p>
+<p><!-- add 1 to 100 part2 開始 -->
+<script type="text/python3">
+from browser import document as doc
+import ace
+
+# 清除畫布
+def clear_bd2(ev):
+    bd = doc["brython_div2"]
+    bd.clear()
+
+# 利用 ace 中的 Editor 建立 Ace2 物件, 其中的輸入變數分別對應到頁面中的編輯區物件
+Ace4 = ace.Editor(editor_id="kw_editor2", console_id="kw_console2", container_id="kw__container2", storage_id="kw_py_src2" )
+
+# 透過 Ace4 以類別建立一個通用的 button2, 可以在多個案例中將 gist 程導入編輯區
+
+class button2:
+    def __init__(self, url):
+        self.url = url
+
+    # 記得加入 event 輸入變數
+    def do(self,ev):
+        Ace4.editor.setValue(open(self.url).read())
+        Ace4.editor.scrollToRow(0)
+        Ace4.editor.gotoLine(0)
+        Ace4.run()
+
+add1to100_url = "https://gist.githubusercontent.com/mdecourse/0229a8a017091476a79700b8a190f185/raw/c48e37714f055c3a0027cbfef59e442a6ef659b9/from_1_add_to_100_1.py"
+
+# 從 gist 取得程式碼
+add_src = open(add1to100_url).read()
+def add2(ev):
+    Ace4.editor.setValue(add_src)
+    Ace4.editor.scrollToRow(0)
+    Ace4.editor.gotoLine(0)
+    Ace4.run()
+
+# id 為 "add1to100part2" 的按鈕點按時, 執行 add 方法
+doc["add1to100part2"].bind('click', add2)
+# 以下為運用 button2 class 的通用 gist 程式導入區
+################################## cango_three_gears start
+cango_three_gears_url = "https://gist.githubusercontent.com/mdecycu/d9082d678096bd58378d6afe2c7fa05d/raw/f7a85d737d6723d5e34c526d5daee990ed92c32b/cango_three_gears_brython_div2.py"
+cango_three_gears = button2(cango_three_gears_url)
+doc["cango_three_gears"].bind("click", cango_three_gears.do)
+################################## cango_three_gears end
+################################## bsnake start
+bsnake_url = "https://gist.githubusercontent.com/mdecycu/d9082d678096bd58378d6afe2c7fa05d/raw/f7a85d737d6723d5e34c526d5daee990ed92c32b/kmol_snakey.py"
+bsnake = button2(bsnake_url)
+doc["bsnake"].bind("click", bsnake.do)
+################################## bsnake end
+################################## aitetris start
+aitetris_url = "https://gist.githubusercontent.com/mdecycu/d9082d678096bd58378d6afe2c7fa05d/raw/f7a85d737d6723d5e34c526d5daee990ed92c32b/pygame_to_brython_tetris_ai.py"
+aitetris = button2(aitetris_url)
+doc["aitetris"].bind("click", aitetris.do)
+################################## aitetris end
+################################## threejsblock start
+threejsblock_url = "https://gist.githubusercontent.com/mdecycu/2c6323eff49b496d1bafd210f3ec9707/raw/df37802f9e8a386b6424f7945af622b1cd0a9ca5/threejs_rotating_block.py"
+threejsblock = button2(threejsblock_url)
+doc["threejsblock"].bind("click", threejsblock.do)
+################################## threejsblock end
+</script>
+</p>
+<p><!-- add 1 to 100 part2 結束--></p>
+<!-- editor2 開始 -->
+<p><!-- 用來顯示程式碼的 editor 區域 --></p>
+<div id="kw_editor2" style="width: 600px; height: 300px;"></div>
+<p><!-- 以下的表單與按鈕與前面的 Javascript doSave 函式以及 FileSaver.min.js 互相配合 --></p>
+<p><!-- 存擋表單開始 --></p>
+<form><label>Filename: <input id="kw_filename2" placeholder="input file name" type="text"/>.py</label> <input onclick="doSave('kw_py_src2', 'kw_filename2');" type="submit" value="Save"/></form>
+<p><!-- 存擋表單結束 --></p>
+<p></p>
+<p><!-- 執行與清除按鈕開始 --></p>
+<p><button id="kw_run2">Run</button> <button id="kw_show_console2">Output</button> <button id="kw_clear_console2">清除輸出區</button><button id="clear_bd2">清除繪圖區</button><button onclick="window.location.reload()">Reload</button></p>
+<p><!-- 執行與清除按鈕結束 --></p>
+<p></p>
+<p><!-- 程式執行 ouput 區 --></p>
+<div style="width: 100%; height: 100%;"><textarea autocomplete="off" id="kw_console2"></textarea></div>
+<p><!-- Brython 程式執行的結果, 都以 brython_div1 作為切入位置 --></p>
+<div id="brython_div2"></div>
+<!-- editor2 結束 --><hr/>
+<p>
+<script src="https://unpkg.com/three@0.144.0/build/three.js" type="text/javascript"></script>
+</p><h1>專題</h1>
 <p><a href="https://mdewcm2024.github.io/1astud-site/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/8ba6fa28317bc7a784d8350e7bc33580/raw/bde21a478f52f831d48a13e997d7965126f950fc/1a_w11_step2.py">列出修課學員的倉儲與網站連結</a></p>
 <p><span>已知可以從 </span><a href="https://mdewcm2024.github.io/1astud-site/downloads/1a.txt">https://mdewcm2024.github.io/1astud-site/downloads/1a.txt</a><span> 取得學員的學號與帳號資料，使用 Brython 可以設法利用 Python 語法對此資料進行處理。</span></p>
 <p>第一步，先取得資料，然後將每一行內容隔開後，放入數列備用。</p>
@@ -52,16 +312,29 @@ def fetch_csv_data():
   req.send()
   
 # 呼叫函式讀取 CSV 資料
-fetch_csv_data()</pre><h1>Blog</h1>
+fetch_csv_data()</pre>
+<h1>Blog</h1>
 <h2>上課心得</h2>
 <p>第一週</p>
-<p>   本週講述了課堂模式及規劃、並設立了自己的個人網站。</p>
+<p>   本週講述了課堂模式及規劃、並設立了自己的個人網站。<br/>   利用Replit來建立我們的個人網站、修正網站標題。</p>
 <p><span>第二週</span></p>
-<p><span>   本週確認每個人都有建立好自己的個人網站、</span>利用 Replit 維護網站。</p>
+<p><span>   本週確認每個人都有建立好自己的個人網站、</span>利用 Replit 維護網站。<br/>並妥善利用git. 將每次改版的內容詳細記載。這個動作的目的為可以保留歷程記錄，更能讓人知道我們在網站上變更了什麼，同時可以用改版資料來讓人信服。</p>
 <p><span>第三週</span></p>
-<p>   <span>本週進行了小組分組(</span>利用 Github Classroom 建立分組網站<span>)。本週講述了</span>常用的 git 指令。</p>
+<p>   <span>本週進行了小組分組(</span>利用 Github Classroom 建立分組網站<span>)。本週講述了</span>常用的 git 指令。<br/>以下為基本的git指令介紹：</p>
+<ul>
+<li><strong>git add .</strong>：這個指令會將工作目錄中的所有變更加入到暫存區（<span>staging area</span>）。這包括新檔案、修改過的檔案和已刪除的檔案。</li>
+<li><strong>git push</strong>：這個指令會將本地的提交推送到遠端倉儲。如果你在一個分支上工作，這個指令會將你的本地分支推送到遠端倉儲。</li>
+<li><strong>git pull</strong>：這個指令會從遠端倉儲拉取最新的變更並合併到你當前的分支。這實際上是<span>git fetch</span>和<span>git merge</span>的組合。</li>
+<li><strong>git config</strong>：這個指令用於設定<span>Git</span>的配置細節，如使用者名稱、電子郵件地址等。</li>
+<li><strong>git submodule add 倉儲網址 子目錄</strong>：這個指令會將一個<span>Git</span>倉儲作為子模組加入到當前倉儲。子模組允許你在一個倉儲中包含另一個倉儲。</li>
+<li><strong>git clone 倉儲網址_協定.git 指定目錄與否</strong>：這個指令會從提供的<span>URL</span>複製一個<span>Git</span>倉儲到本地機器。如果提供了一個目錄名稱，<span>Git</span>會在那個目錄中創建一個新的倉儲；否則，<span>Git</span>會在當前目錄中創建一個與倉儲名稱相同的目錄。(其中協定大多使用https)。</li>
+</ul>
 <p><span>第四週</span></p>
-<p>   <span>本週講述了 網際網路之定義(包含WWW定義、協定等)、</span>Replit, Codespaces 與 Gitpod 執行動態與靜態網站</p>
+<p>   <span>本週講述了  網際網路之定義(包含WWW定義、協定等)、Replit, Codespaces 與 Github 執行動態與靜態網站<br/></span></p>
+<p>至於 <strong><span style="text-decoration: underline;">Replit, Codespaces 與 Githu</span>b</strong>，它們都是開發環境，可以用來執行動態和靜態網站：</p>
+<p><strong>Replit</strong>：可以在<span> Replit </span>上執行動態網站，指令為<span> python3 main.py</span>。而執行靜態網站則需要在<span> Shell </span>執行<span> python3 main2.py</span>。</p>
+<p><strong>Codespaces</strong>：目前我沒有找到特定的資訊關於如何在<span> Codespaces </span>上執行動態或靜態網站。然而，<span>Codespaces </span>是一個完整的開發環境，因此理論上可以運行任何類型的網站，只要有適當的設定和依賴性。</p>
+<p><strong>Github</strong>：在<span> Github </span>中，執行動態網站的指令為<span> python3 main.py。</span></p>
 <p><span>第五週</span></p>
 <p><span>   本週講述了 </span><yt-formatted-string class="style-scope ytd-watch-metadata" force-default-style="">Replit 平台上的分組倉儲權限設定、</yt-formatted-string>如何在 Replit 執行靜態網站檢視。</p>
 <p><span>第六週<br/></span></p>
@@ -74,7 +347,7 @@ fetch_csv_data()</pre><h1>Blog</h1>
 <p><span>第十週</span></p>
 <p><span>   本週老師先讓我們加入了專題分組作業群組，然後講解了各式內容，要進行python的相關應用，在加入資料途中，發現了許多問題，但是在我回去翻閱過往的教學影片後，得到了解決，即使面對git push 失敗，我仍嘗試解決問題來源，最終將進度完成。</span></p>
 <p><span>第十一週</span></p>
-<p><span>本週老師操作了<span style="text-decoration: underline; background-color: #ffff99;"><strong>如何利用replit 來進行1astud-site管理網站頁面</strong></span>，在實際操作時，因為有多數同學因操作而造成各種衝突，導致我們這組遲遲無法進行上傳g8頁面，而我們小組成員都無能為力，但是經過一番努力及討教，我們終於成功解決一些衝突，並順利建立g8頁面，也特別感謝我們組員的幫助下，👍讓我們順利完成這個作業✌️。<br/>●<strong><span style="background-color: #ffff99;">老師所要講述的是，我們必須要透過自行解決問題的能力來面對外來千變萬幻的新穎問題，不僅僅是透過學習，也可以透過詢問現今日漸崛起的AI技術來幫助我們解決問題。善用這些工具，幫助我們解決各種問題、衝突。</span></strong><br/><br/><span style="color: #ff0000;">※利用git pull整合、合併，在來使用git status-&gt;git push。當然前提是衝突已被解決。<br/></span></span><strong>當然要編輯網頁內容可以使用的工具有:</strong></p>
+<p><span>本週老師操作了<span style="text-decoration: underline; background-color: #ffff99;"><strong>如何利用replit 來進行1astud-site管理網站頁面</strong></span>，在實際操作時，因為有多數同學因操作而造成各種衝突(可能主因為沒有建立分支)，導致我們這組遲遲無法進行上傳g8頁面，而我們小組成員都無能為力，但是經過一番努力及討教，我們終於成功解決一些衝突，並順利建立g8頁面，也特別感謝我們組員的幫助下，👍讓我們順利完成這個作業✌️。<br/>●<strong><span style="background-color: #ffff99;">老師所要講述的是，我們必須要透過自行解決問題的能力來面對外來千變萬幻的新穎問題，不僅僅是透過學習，也可以透過詢問現今日漸崛起的AI技術來幫助我們解決問題。善用這些工具，幫助我們解決各種問題、衝突。</span></strong><br/><br/><span style="color: #ff0000;">※利用git pull整合、合併，在來使用git status-&gt;git push。當然前提是衝突已被解決。<br/></span></span><strong>當然要編輯網頁內容可以使用的工具有:</strong></p>
 <ol>
 <li><strong>使用github</strong></li>
 <li><strong>使用Replit</strong></li>
@@ -82,7 +355,8 @@ fetch_csv_data()</pre><h1>Blog</h1>
 <li><strong>使用CodeSpaces</strong></li>
 </ol>
 <p>第十二週</p>
-<p></p><h1>cmsimde</h1>
+<p><span>   本週探討在</span><span>1astud-site 解決衝突、分支內容。<br/>透過先查詢目前分支名稱後(git branch)，以切換到所想要的分支(git checkout)。<br/>解決衝突的部分在於要先了解目前所發生的衝突(Search =======)。<br/>至於：</span><span style="text-decoration: underline;"><strong>Responsive site </strong></span>根據您的瀏覽器的硬體的設置而形成最適大小。</p>
+<p><span> </span></p><h1>cmsimde</h1>
 <p><span style="background-color: #ccffcc;">SMap</span> - SiteMap - 依照階次列出網站的所有頁面.</p>
 <p><span style="background-color: #ccffcc;">EditA</span> - Edit All page - 將所有頁面放入編輯模式中, 主要用來處理頁面搬遷, 刪除或決定衝突頁面內容版本.</p>
 <p><span style="background-color: #ccffcc;">Edit</span> - Edit page - 先選擇要編輯的單一頁面後, 再點選 Edit, 即可進入單一頁面的編輯模式.</p>

@@ -131,7 +131,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li><a href='About.html'>About</a><li><a href='專題.html'>專題</a><li class='has-children'><a href='Blog.html'>Blog</a><ul class='dropdown'><li><a href='上課心得.html'>上課心得</a></li></ul><li><a href='cmsimde.html'>cmsimde</a><li><a href='Codespaces.html'>Codespaces</a><li><a href='Replit.html'>Replit</a><li class='has-children'><a href='週次進度.html'>週次進度</a><ul class='dropdown'><li class='has-children'><a href='w6.html'>w6</a><ul class='dropdown'><li><a href='第六週作業內容.html'>第六週作業內容</a></li></li></ul></ul><li><a href='Brython.html'>Brython</a></li>
+                     <li><a href='About.html'>About</a><li><a href='程式執行.html'>程式執行</a><li><a href='專題.html'>專題</a><li class='has-children'><a href='Blog.html'>Blog</a><ul class='dropdown'><li><a href='上課心得.html'>上課心得</a></li></ul><li><a href='cmsimde.html'>cmsimde</a><li><a href='Codespaces.html'>Codespaces</a><li><a href='Replit.html'>Replit</a><li class='has-children'><a href='週次進度.html'>週次進度</a><ul class='dropdown'><li class='has-children'><a href='w6.html'>w6</a><ul class='dropdown'><li><a href='第六週作業內容.html'>第六週作業內容</a></li></li></ul></ul><li><a href='Brython.html'>Brython</a></li>
                       </ul>
                 </nav>
               </div>
@@ -144,13 +144,25 @@ img.add_border {
         </header>
     <div id="tipue_search_content">Blog << <a href='Blog.html'>Previous</a> <a href='cmsimde.html'>Next</a> >> cmsimde<br /><h1>上課心得</h1>
 <p>第一週</p>
-<p>   本週講述了課堂模式及規劃、並設立了自己的個人網站。</p>
+<p>   本週講述了課堂模式及規劃、並設立了自己的個人網站。<br/>   利用Replit來建立我們的個人網站、修正網站標題。</p>
 <p><span>第二週</span></p>
-<p><span>   本週確認每個人都有建立好自己的個人網站、</span>利用 Replit 維護網站。</p>
+<p><span>   本週確認每個人都有建立好自己的個人網站、</span>利用 Replit 維護網站。<br/>並妥善利用git. 將每次改版的內容詳細記載。這個動作的目的為可以保留歷程記錄，更能讓人知道我們在網站上變更了什麼，同時可以用改版資料來讓人信服。</p>
 <p><span>第三週</span></p>
-<p>   <span>本週進行了小組分組(</span>利用 Github Classroom 建立分組網站<span>)。本週講述了</span>常用的 git 指令。</p>
+<p>   <span>本週進行了小組分組(</span>利用 Github Classroom 建立分組網站<span>)。本週講述了</span>常用的 git 指令。<br/>以下為基本的git指令介紹：</p>
+<ul>
+<li><strong>git add .</strong>：這個指令會將工作目錄中的所有變更加入到暫存區（<span>staging area</span>）。這包括新檔案、修改過的檔案和已刪除的檔案。</li>
+<li><strong>git push</strong>：這個指令會將本地的提交推送到遠端倉儲。如果你在一個分支上工作，這個指令會將你的本地分支推送到遠端倉儲。</li>
+<li><strong>git pull</strong>：這個指令會從遠端倉儲拉取最新的變更並合併到你當前的分支。這實際上是<span>git fetch</span>和<span>git merge</span>的組合。</li>
+<li><strong>git config</strong>：這個指令用於設定<span>Git</span>的配置細節，如使用者名稱、電子郵件地址等。</li>
+<li><strong>git submodule add 倉儲網址 子目錄</strong>：這個指令會將一個<span>Git</span>倉儲作為子模組加入到當前倉儲。子模組允許你在一個倉儲中包含另一個倉儲。</li>
+<li><strong>git clone 倉儲網址_協定.git 指定目錄與否</strong>：這個指令會從提供的<span>URL</span>複製一個<span>Git</span>倉儲到本地機器。如果提供了一個目錄名稱，<span>Git</span>會在那個目錄中創建一個新的倉儲；否則，<span>Git</span>會在當前目錄中創建一個與倉儲名稱相同的目錄。(其中協定大多使用https)。</li>
+</ul>
 <p><span>第四週</span></p>
-<p>   <span>本週講述了 網際網路之定義(包含WWW定義、協定等)、</span>Replit, Codespaces 與 Gitpod 執行動態與靜態網站</p>
+<p>   <span>本週講述了  網際網路之定義(包含WWW定義、協定等)、Replit, Codespaces 與 Github 執行動態與靜態網站<br/></span></p>
+<p>至於 <strong><span style="text-decoration: underline;">Replit, Codespaces 與 Githu</span>b</strong>，它們都是開發環境，可以用來執行動態和靜態網站：</p>
+<p><strong>Replit</strong>：可以在<span> Replit </span>上執行動態網站，指令為<span> python3 main.py</span>。而執行靜態網站則需要在<span> Shell </span>執行<span> python3 main2.py</span>。</p>
+<p><strong>Codespaces</strong>：目前我沒有找到特定的資訊關於如何在<span> Codespaces </span>上執行動態或靜態網站。然而，<span>Codespaces </span>是一個完整的開發環境，因此理論上可以運行任何類型的網站，只要有適當的設定和依賴性。</p>
+<p><strong>Github</strong>：在<span> Github </span>中，執行動態網站的指令為<span> python3 main.py。</span></p>
 <p><span>第五週</span></p>
 <p><span>   本週講述了 </span><yt-formatted-string class="style-scope ytd-watch-metadata" force-default-style="">Replit 平台上的分組倉儲權限設定、</yt-formatted-string>如何在 Replit 執行靜態網站檢視。</p>
 <p><span>第六週<br/></span></p>
@@ -163,7 +175,7 @@ img.add_border {
 <p><span>第十週</span></p>
 <p><span>   本週老師先讓我們加入了專題分組作業群組，然後講解了各式內容，要進行python的相關應用，在加入資料途中，發現了許多問題，但是在我回去翻閱過往的教學影片後，得到了解決，即使面對git push 失敗，我仍嘗試解決問題來源，最終將進度完成。</span></p>
 <p><span>第十一週</span></p>
-<p><span>本週老師操作了<span style="text-decoration: underline; background-color: #ffff99;"><strong>如何利用replit 來進行1astud-site管理網站頁面</strong></span>，在實際操作時，因為有多數同學因操作而造成各種衝突，導致我們這組遲遲無法進行上傳g8頁面，而我們小組成員都無能為力，但是經過一番努力及討教，我們終於成功解決一些衝突，並順利建立g8頁面，也特別感謝我們組員的幫助下，👍讓我們順利完成這個作業✌️。<br/>●<strong><span style="background-color: #ffff99;">老師所要講述的是，我們必須要透過自行解決問題的能力來面對外來千變萬幻的新穎問題，不僅僅是透過學習，也可以透過詢問現今日漸崛起的AI技術來幫助我們解決問題。善用這些工具，幫助我們解決各種問題、衝突。</span></strong><br/><br/><span style="color: #ff0000;">※利用git pull整合、合併，在來使用git status-&gt;git push。當然前提是衝突已被解決。<br/></span></span><strong>當然要編輯網頁內容可以使用的工具有:</strong></p>
+<p><span>本週老師操作了<span style="text-decoration: underline; background-color: #ffff99;"><strong>如何利用replit 來進行1astud-site管理網站頁面</strong></span>，在實際操作時，因為有多數同學因操作而造成各種衝突(可能主因為沒有建立分支)，導致我們這組遲遲無法進行上傳g8頁面，而我們小組成員都無能為力，但是經過一番努力及討教，我們終於成功解決一些衝突，並順利建立g8頁面，也特別感謝我們組員的幫助下，👍讓我們順利完成這個作業✌️。<br/>●<strong><span style="background-color: #ffff99;">老師所要講述的是，我們必須要透過自行解決問題的能力來面對外來千變萬幻的新穎問題，不僅僅是透過學習，也可以透過詢問現今日漸崛起的AI技術來幫助我們解決問題。善用這些工具，幫助我們解決各種問題、衝突。</span></strong><br/><br/><span style="color: #ff0000;">※利用git pull整合、合併，在來使用git status-&gt;git push。當然前提是衝突已被解決。<br/></span></span><strong>當然要編輯網頁內容可以使用的工具有:</strong></p>
 <ol>
 <li><strong>使用github</strong></li>
 <li><strong>使用Replit</strong></li>
@@ -171,7 +183,8 @@ img.add_border {
 <li><strong>使用CodeSpaces</strong></li>
 </ol>
 <p>第十二週</p>
-<p></p><br />Blog << <a href='Blog.html'>Previous</a> <a href='cmsimde.html'>Next</a> >> cmsimde</div>
+<p><span>   本週探討在</span><span>1astud-site 解決衝突、分支內容。<br/>透過先查詢目前分支名稱後(git branch)，以切換到所想要的分支(git checkout)。<br/>解決衝突的部分在於要先了解目前所發生的衝突(Search =======)。<br/>至於：</span><span style="text-decoration: underline;"><strong>Responsive site </strong></span>根據您的瀏覽器的硬體的設置而形成最適大小。</p>
+<p><span> </span></p><br />Blog << <a href='Blog.html'>Previous</a> <a href='cmsimde.html'>Next</a> >> cmsimde</div>
 
     <!-- footer -->
       <div class="container">
