@@ -363,7 +363,51 @@ fetch_csv_data()</pre>
 <p><span>column </span>來抓取學生資料，與班級課堂較無關。</p>
 <p>所需要的資料為<span> Flask</span>、<span>Flask-Core。</span></p>
 <p><span>第十四週</span></p>
-<p><span></span></p><h1>cmsimde</h1>
+<p><span>   本週探討python不同版本的差異(以新版本去修正舊版本的不足)及改版猜數字遊戲。還有解釋SET、REM。<br/></span></p>
+<p>因原先的猜數字遊戲，電腦會一直猜，而導致分數越來越高；而修正後改成電腦和猜與者各猜一次。</p>
+<p>在<span> Python </span>中，<span>REM </span>和<span> SET</span>這兩個詞在其他程式語言或環境中有特定的含義，例如在<span> Windows </span>的批次檔案（<span>Batch file</span>）中，<span>REM </span>用於添加註解，而<span> SET </span>用於設定或更改環境變數。</p>
+<p><span> 例如：</span></p>
+<p>在這個<span> Python </span>程式中，我們使用<span> # </span>來添加註解，使用<span> = </span>來設定變數<span> x </span>的值為<span> 10</span>，然後<span> print(x) </span>用於顯示變數<span> x </span>的值。</p>
+<p><span></span></p>
+<p><span>在猜數字遊戲中：(未改版前)<br/>比分如下：</span></p>
+<ul id="player-list">
+<li>01411 (Score: 0, Guesses: 0)</li>
+<li>壹號&lt;3 (Score: 0, Guesses: 0)</li>
+<li>41046109-2 (Score: 0, Guesses: 0)</li>
+<li>41023218 (Score: 0, Guesses: 0)</li>
+<li>41046109-1 (Score: 0, Guesses: 0)</li>
+<li>1 (Score: 0, Guesses: 0)</li>
+<li>零號 (Score: 0, Guesses: 0)</li>
+<li>承認失敗 (Score: 0, Guesses: 0)</li>
+<li>41223120 (Score: 0, Guesses: 0)</li>
+<li>ni**a (Score: 7, Guesses: 0)</li>
+<li>41223126 (Score: 30, Guesses: 0)</li>
+<li>41223101 (Score: 0, Guesses: 0)</li>
+<li>20 (Score: 1, Guesses: 0)</li>
+<li>41223153 (Score: 0, Guesses: 0)</li>
+<li>41145405 (Score: 0, Guesses: 0)</li>
+<li>0 (Score: 0, Guesses: 0)</li>
+<li>10 (Score: 0, Guesses: 0)</li>
+<li>41046109 (Score: 15, Guesses: 0)</li>
+<li>41223129 (Score: 0, Guesses: 0)</li>
+<li>34 (Score: 0, Guesses: 0)</li>
+<li>41223136 (Score: 1, Guesses: 0)</li>
+<li>54 (Score: 1, Guesses: 0)</li>
+<li><span style="color: #ff0000;"><strong><span style="background-color: #ffff00;">41046137 (Score: 62, Guesses: 0)</span></strong></span></li>
+<li>41223118 (Score: 5, Guesses: 0)</li>
+<li>computer (Score: 3390, Guesses: 1)</li>
+<li>50703199 (Score: 0, Guesses: 0)</li>
+</ul>
+<p><span>我得到62分，但是電腦猜數字的分數卻遠遠高於我們人類，所以未來AI的智慧和功能會取代人類很大的地步，而我們必須從其他方面來去補足這個差異(如人性化)。</span></p>
+<p><span>在猜數字遊戲中：(改版後)<br/>比分如下：</span></p>
+<ul id="player-list">
+<li><strong><span style="background-color: #ffff00; color: #ff0000;">41046137 (Score: 23, Guesses: 0)</span></strong></li>
+<li>41046109 (Score: 6, Guesses: 2)</li>
+<li>computer (Score: 52, Guesses: 2)</li>
+<li>test (Score: 0, Guesses: 0)</li>
+</ul>
+<p>不管哪種版本，AI的成績均比我們人類還高，可見人工智慧的強大。</p>
+<p></p><h1>cmsimde</h1>
 <p><span style="background-color: #ccffcc;">SMap</span> - SiteMap - 依照階次列出網站的所有頁面.</p>
 <p><span style="background-color: #ccffcc;">EditA</span> - Edit All page - 將所有頁面放入編輯模式中, 主要用來處理頁面搬遷, 刪除或決定衝突頁面內容版本.</p>
 <p><span style="background-color: #ccffcc;">Edit</span> - Edit page - 先選擇要編輯的單一頁面後, 再點選 Edit, 即可進入單一頁面的編輯模式.</p>
@@ -414,8 +458,9 @@ fetch_csv_data()</pre>
 </div>
 <p><a href="http://229.cycu.org:88/">來源</a></p>
 <p>-------------------</p>
-<p></p>
-<p><a href="https://localhost:9447/?semester=1122&amp;classid=%E5%9B%9B%E4%BC%81%E7%AE%A1%E4%B8%89%E7%94%B2">課表<br/><br/></a></p>
+<p><a href="https://localhost:9447/?semester=1121&amp;classid=%E5%9B%9B%E4%BC%81%E7%AE%A1%E4%B8%89%E7%94%B2">課表.第一學期</a></p>
+<p><img alt="" height="672" src="/images/112.2.png" width="498"/></p>
+<p><a href="https://localhost:9447/?semester=1122&amp;classid=%E5%9B%9B%E4%BC%81%E7%AE%A1%E4%B8%89%E7%94%B2">課表第二學期</a></p>
 <pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from flask import Flask, request 
 from flask_cors import CORS
 
@@ -448,6 +493,7 @@ import bs4
 42342: 42342四設計四乙
 
 42349: 42349四設計系四攜
+44631: 44631四企管三甲
 
 第 112 學年第 2 學期, 查詢設一甲的班級課表
 
