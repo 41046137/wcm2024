@@ -362,6 +362,7 @@ fetch_csv_data()</pre>
 <p><span>ajax</span>緩衝區 利用前端和非同步的方式來與伺服器進行取得資料庫。<span><br/> </span>網頁伺服器或客戶端至少<span>’</span>有<span>”Post</span>、<span>client”<br/> get</span></p>
 <p><span>column </span>來抓取學生資料，與班級課堂較無關。</p>
 <p>所需要的資料為<span> Flask</span>、<span>Flask-Core。</span></p>
+<p><span style="background-color: #ff99cc;"><strong>目前使用將code複製回去Portable 再使用tools工具下的go去執行。(不要扣分🥹🥹)</strong></span></p>
 <p><span>第十四週</span></p>
 <p><span>   本週探討python不同版本的差異(以新版本去修正舊版本的不足)及改版猜數字遊戲。還有解釋SET、REM。<br/></span></p>
 <p>因原先的猜數字遊戲，電腦會一直猜，而導致分數越來越高；而修正後改成電腦和猜與者各猜一次。</p>
@@ -398,7 +399,45 @@ fetch_csv_data()</pre>
 <li>computer (Score: 3390, Guesses: 1)</li>
 <li>50703199 (Score: 0, Guesses: 0)</li>
 </ul>
-<p><span>我得到62分，但是電腦猜數字的分數卻遠遠高於我們人類，所以未來AI的智慧和功能會取代人類很大的地步，而我們必須從其他方面來去補足這個差異(如人性化)。</span></p><h1>cmsimde</h1>
+<p><span>我得到62分，但是電腦猜數字的分數卻遠遠高於我們人類，所以未來AI的智慧和功能會取代人類很大的地步，而我們必須從其他方面來去補足這個差異(如人性化)。</span></p>
+<p><span>在猜數字遊戲中：(改版後)<br/>比分如下：</span></p>
+<ul id="player-list">
+<li><strong><span style="background-color: #ffff00; color: #ff0000;">41046137 (Score: 23, Guesses: 0)</span></strong></li>
+<li>41046109 (Score: 6, Guesses: 2)</li>
+<li>computer (Score: 52, Guesses: 2)</li>
+<li>test (Score: 0, Guesses: 0)</li>
+</ul>
+<p>不管哪種版本，AI的成績均比我們人類還高，可見人工智慧的強大。</p>
+<p></p>
+<p>第十五週</p>
+<p>  本週一開始就先點名，而後開始進入正題，教導我們使用近端來去產生網誌文章產生器，而後繼續使用近端來去產生簡報編輯器，並將各自均存放下來。以下為各自的代碼。</p>
+<p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">---
+Title: w15 說明如何利用 Web-based程式協助設計
+Date: 2024-05-30 10:22
+Category: Pelican, w15
+Tags: web-based, javascript
+Slug: w15 說明如何利用 Web-based程式協助設計
+Author: 41046137
+---
+
+w15 說明如何利用 Web-based程式協助設計
+
+&lt;!-- PELICAN_END_SUMMARY --&gt;
+
+# test 1
+
+test 1
+
+# test 2
+
+test 2
+
+</pre>
+<p></p>
+<p>而簡報編輯器code如下：(在週次進度下的第十五週也有)</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">&lt;section&gt;&lt;h2&gt;w15 說明如何利用 Web-based程式協助設計&lt;/h2&gt;&lt;img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbqj9Ii13d6hx5a9kyLnC5A8A96LDSaSZv_w&amp;s" alt="github的logo"&gt;&lt;/img&gt;&lt;iframe src="https://www.youtube.com/embed/PKmqI_FaliI?si=3LrNzLZ95yI4Duns" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;/section&gt;</pre>
+<p></p><h1>cmsimde</h1>
 <p><span style="background-color: #ccffcc;">SMap</span> - SiteMap - 依照階次列出網站的所有頁面.</p>
 <p><span style="background-color: #ccffcc;">EditA</span> - Edit All page - 將所有頁面放入編輯模式中, 主要用來處理頁面搬遷, 刪除或決定衝突頁面內容版本.</p>
 <p><span style="background-color: #ccffcc;">Edit</span> - Edit page - 先選擇要編輯的單一頁面後, 再點選 Edit, 即可進入單一頁面的編輯模式.</p>
@@ -431,7 +470,18 @@ fetch_csv_data()</pre>
 <p dir="auto">for IPv6 only Ubuntu:<br/><br/>.ssh 目錄中的 config, 將 SSH session 名稱設為 github.com:<br/><br/>Host github.com<br/>User git<br/>Hostname github.com<br/>ProxyCommand /usr/bin/ncat --proxy p4.cycu.org:3128 --proxy-type http %h %p<br/><br/>for Replit:<br/><br/>.ssh 目錄中的 config, 將 SSH session 名稱設為 github.com:<br/><br/>Host github.com<br/>User git<br/>Hostname github.co<br/>#since Replit works for IPv4, therefore no ProxyCommand setting needed<br/>#ProxyCommand /usr/bin/ncat --proxy p4.cycu.org:3128 --proxy-type http %h %p</p>
 <p dir="auto"></p>
 <h1>週次進度</h1>
-<h2>w13</h2>
+<h2>w15</h2>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">&lt;section&gt;
+  &lt;h2&gt;簡報標題&lt;/h2&gt;&lt;img src="圖片網址" alt="圖片說明"&gt;&lt;/img&gt;&lt;iframe src="https://www.youtube.com/watch?v=fjheqtLYATg" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/section&gt;</pre>
+<p>以下為更正後：</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">&lt;section&gt;&lt;h2&gt;w15 說明如何利用 Web-based程式協助設計&lt;/h2&gt;&lt;img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbqj9Ii13d6hx5a9kyLnC5A8A96LDSaSZv_w&amp;s" alt="github的logo"&gt;&lt;/img&gt;&lt;iframe src="https://www.youtube.com/embed/PKmqI_FaliI?si=3LrNzLZ95yI4Duns" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;/section&gt;</pre>
+<p>另外我也找到其他入刊影片網址以免被youtube網站拒絕存取</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">&lt;section&gt;&lt;h2&gt;w15 說明如何利用 Web-based程式協助設計&lt;/h2&gt;&lt;img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbqj9Ii13d6hx5a9kyLnC5A8A96LDSaSZv_w&amp;s" alt="github的logo"&gt;&lt;/img&gt;&lt;style&gt;.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }&lt;/style&gt;&lt;div class='embed-container'&gt;&lt;iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/83g9NFbtR_k?rel=0' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;&lt;/section&gt;</pre>
+<p><br/><br/><br/></p>
+<p></p>
+<p></p>
+<p><br/><br/></p><h2>w13</h2>
 <p>-------------------</p>
 <p>Multiplayer Guessing Game</p>
 <p>請猜介於 1 ~ 100 的整數: <br/><br/></p>
