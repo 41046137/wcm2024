@@ -314,7 +314,265 @@ def fetch_csv_data():
   
 # 呼叫函式讀取 CSV 資料
 fetch_csv_data()</pre>
-<h1>Blog</h1>
+<h1>專案</h1>
+<h2>期末實作</h2>
+<p>在期末實作中，我利用Portable在近端中使用html和JavaScript，去製作一個小遊戲。<br/>遊戲名稱：五子棋<br/>創建方式：透過AI反覆除錯。</p>
+<p>目前所遇到的問題是，雖然目前版本AI可以進行防禦和進攻了，但是仍然不智慧，不會去設法想進攻和防禦策略，這此版本中，目前是最好的一個版本，雖多次進行改善(20+)，仍然還是問題相同，導致這個遊戲版本，我方獲勝幾乎可以全勝。<br/>以下為他的代碼code，但因為是近端製作的關係，若日後還要再開啟的話，就還是必須要再次把代碼執行，希望往後版本可以改善這個問題。</p>
+<p>遊戲特色：</p>
+<p><img caption="false" height="500" src="/images/五子棋主畫面.png" width="509"/></p>
+<p>待改善清單：</p>
+<ul>
+<li>AI沒有智慧，不會採去進攻和防禦策略(但玩家在試圖獲勝時，仍然會抵擋，但幾乎沒有效果)</li>
+<li>此版本開啟方式需要整合與調整。調整為大家一般可以開啟的狀態而非使用代碼。</li>
+<li>遊戲介面的更新與調整。(可能會新增更豐富的畫面、獲勝與敗北的動畫、與介面的調整(因目前介面十分簡陋，所以希望可以更加美觀)。</li>
+<li>若AI仍無法像人類一樣有更加多元的防守與進攻策略，那可以新增一些規則來限制人類(如一開始就隨機分配先攻選手，這樣或許可以給予我們一些壓力)。</li>
+<li>待改善AI只會一直列的進攻。</li>
+</ul>
+<p>        待改善清單內容尚更新中...</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;五子棋遊戲&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #board {
+            display: grid;
+            grid-template-columns: repeat(15, 30px);
+            grid-template-rows: repeat(15, 30px);
+            gap: 1px;
+        }
+        .cell {
+            width: 30px;
+            height: 30px;
+            background-color: lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid black;
+        }
+        .piece {
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            background-color: lightgray;
+        }
+        .player {
+            background-color: blue;
+        }
+        .ai {
+            background-color: red;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;五子棋遊戲&lt;/h1&gt;
+    &lt;div id="board"&gt;&lt;/div&gt;
+    &lt;button onclick="resetGame()"&gt;重置遊戲&lt;/button&gt;
+    &lt;p&gt;玩家得分: &lt;span id="playerScore"&gt;0&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;對手得分: &lt;span id="aiScore"&gt;0&lt;/span&gt;&lt;/p&gt;
+
+    &lt;script&gt;
+        const board = document.getElementById('board');
+        const playerScoreElem = document.getElementById('playerScore');
+        const aiScoreElem = document.getElementById('aiScore');
+
+        let boardState = Array(15).fill().map(() =&gt; Array(15).fill(0));
+        let playerScore = 0;
+        let aiScore = 0;
+
+        function createBoard() {
+            board.innerHTML = '';
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    cell.addEventListener('click', playerMove);
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        function playerMove(event) {
+            const x = parseInt(event.target.dataset.x);
+            const y = parseInt(event.target.dataset.y);
+            if (boardState[y][x] === 0) {
+                boardState[y][x] = 1;
+                event.target.appendChild(createPiece('player'));
+                if (checkWinner(1)) {
+                    alert('玩家獲勝！');
+                    playerScore++;
+                    updateScores();
+                    resetGame();
+                    return;
+                }
+                setTimeout(aiMove, 500);
+            }
+        }
+
+        function aiMove() {
+            let move = findWinningMove(2) || findWinningMove(1) || findPotentialThreat(2) || findPotentialThreat(1) || findRandomMove();
+            if (move) {
+                boardState[move.y][move.x] = 2;
+                const cell = board.querySelector(`[data-x='${move.x}'][data-y='${move.y}']`);
+                cell.appendChild(createPiece('ai'));
+                if (checkWinner(2)) {
+                    alert('對手獲勝！');
+                    aiScore++;
+                    updateScores();
+                    resetGame();
+                    return;
+                }
+            }
+        }
+
+        function findWinningMove(player) {
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === 0) {
+                        boardState[y][x] = player;
+                        if (checkWinner(player)) {
+                            boardState[y][x] = 0;
+                            return { x, y };
+                        }
+                        boardState[y][x] = 0;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function findPotentialThreat(player) {
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === 0) {
+                        boardState[y][x] = player;
+                        if (checkPotentialThreat(player)) {
+                            boardState[y][x] = 0;
+                            return { x, y };
+                        }
+                        boardState[y][x] = 0;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function checkPotentialThreat(player) {
+            const directions = [
+                { dx: 1, dy: 0 }, 
+                { dx: 0, dy: 1 }, 
+                { dx: 1, dy: 1 }, 
+                { dx: 1, dy: -1 }
+            ];
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === player) {
+                        for (let { dx, dy } of directions) {
+                            if (checkThreatDirection(x, y, dx, dy, player)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        function checkThreatDirection(x, y, dx, dy, player) {
+            let count = 0;
+            for (let i = 0; i &lt; 5; i++) {
+                const nx = x + i * dx;
+                const ny = y + i * dy;
+                if (nx &gt;= 0 &amp;&amp; nx &lt; 15 &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; 15 &amp;&amp; boardState[ny][nx] === player) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            return count &gt;= 3; // Consider a position a threat if there are 3 in a row
+        }
+
+        function findRandomMove() {
+            let moves = [];
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === 0) {
+                        moves.push({ x, y });
+                    }
+                }
+            }
+            return moves.length ? moves[Math.floor(Math.random() * moves.length)] : null;
+        }
+
+        function createPiece(playerClass) {
+            const piece = document.createElement('div');
+            piece.classList.add('piece', playerClass);
+            return piece;
+        }
+
+        function checkWinner(player) {
+            const directions = [
+                { dx: 1, dy: 0 }, 
+                { dx: 0, dy: 1 }, 
+                { dx: 1, dy: 1 }, 
+                { dx: 1, dy: -1 }
+            ];
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === player) {
+                        for (let { dx, dy } of directions) {
+                            if (checkDirection(x, y, dx, dy, player)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        function checkDirection(x, y, dx, dy, player) {
+            let count = 0;
+            for (let i = 0; i &lt; 5; i++) {
+                const nx = x + i * dx;
+                const ny = y + i * dy;
+                if (nx &gt;= 0 &amp;&amp; nx &lt; 15 &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; 15 &amp;&amp; boardState[ny][nx] === player) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            return count === 5;
+        }
+
+        function updateScores() {
+            playerScoreElem.textContent = playerScore;
+            aiScoreElem.textContent = aiScore;
+        }
+
+        function resetGame() {
+            boardState = Array(15).fill().map(() =&gt; Array(15).fill(0));
+            createBoard();
+        }
+
+        createBoard();
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p></p><h1>Blog</h1>
 <h2>上課心得</h2>
 <p>第一週</p>
 <p>   本週講述了課堂模式及規劃、並設立了自己的個人網站。<br/>   利用Replit來建立我們的個人網站、修正網站標題。</p>
@@ -337,7 +595,7 @@ fetch_csv_data()</pre>
 <p><strong>Codespaces</strong>：目前我沒有找到特定的資訊關於如何在<span> Codespaces </span>上執行動態或靜態網站。然而，<span>Codespaces </span>是一個完整的開發環境，因此理論上可以運行任何類型的網站，只要有適當的設定和依賴性。</p>
 <p><strong>Github</strong>：在<span> Github </span>中，執行動態網站的指令為<span> python3 main.py。</span></p>
 <p><span>第五週</span></p>
-<p><span>   本週講述了 </span><yt-formatted-string class="style-scope ytd-watch-metadata" force-default-style="">Replit 平台上的分組倉儲權限設定、</yt-formatted-string>如何在 Replit 執行靜態網站檢視。</p>
+<p><span>   本週講述了 </span><yt-formatted-string class="style-scope ytd-watch-metadata" force-default-style="">Replit 平台上的分組倉儲權限設定、</yt-formatted-string>如何在 Replit 執行靜態網站檢視。<br/>第七週<br/>   為清明節放假。</p>
 <p><span>第六週<br/></span></p>
 <p>   本週講述了 <span>Git的</span>歷史與希望解決的問題、如何應用ChatGPT解決不同專業的問題還有用Gitit解決產品設計問題。</p>
 <p>   利用現金越來越發達的AI，幫助我們在往日遇到問題時，可以有個解決對象。</p>
@@ -438,7 +696,8 @@ test 2
 <p></p>
 <p>而簡報編輯器code如下：<strong><span style="background-color: #ffff00; color: #ff0000;"><a href="https://41046137.github.io/wcm2024/content/w15.html" style="background-color: #ffff00; color: #ff0000;">(在週次進度下的第十五週也有)</a></span></strong></p>
 <pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">&lt;section&gt;&lt;h2&gt;w15 說明如何利用 Web-based程式協助設計&lt;/h2&gt;&lt;img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbqj9Ii13d6hx5a9kyLnC5A8A96LDSaSZv_w&amp;s" alt="github的logo"&gt;&lt;/img&gt;&lt;iframe src="https://www.youtube.com/embed/PKmqI_FaliI?si=3LrNzLZ95yI4Duns" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;/section&gt;</pre>
-<p></p><h1>cmsimde</h1>
+<p>第十六週<br/>   本週老師首先解惑了同學的問題，利用近端來去維護網站，之後就讓我們到表單填寫期末自評。</p>
+<h1>cmsimde</h1>
 <p><span style="background-color: #ccffcc;">SMap</span> - SiteMap - 依照階次列出網站的所有頁面.</p>
 <p><span style="background-color: #ccffcc;">EditA</span> - Edit All page - 將所有頁面放入編輯模式中, 主要用來處理頁面搬遷, 刪除或決定衝突頁面內容版本.</p>
 <p><span style="background-color: #ccffcc;">Edit</span> - Edit page - 先選擇要編輯的單一頁面後, 再點選 Edit, 即可進入單一頁面的編輯模式.</p>
@@ -479,10 +738,11 @@ test 2
 <pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">&lt;section&gt;&lt;h2&gt;w15 說明如何利用 Web-based程式協助設計&lt;/h2&gt;&lt;img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbqj9Ii13d6hx5a9kyLnC5A8A96LDSaSZv_w&amp;s" alt="github的logo"&gt;&lt;/img&gt;&lt;iframe src="https://www.youtube.com/embed/PKmqI_FaliI?si=3LrNzLZ95yI4Duns" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;/section&gt;</pre>
 <p>另外我也找到其他入刊影片網址以免被youtube網站拒絕存取</p>
 <pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">&lt;section&gt;&lt;h2&gt;w15 說明如何利用 Web-based程式協助設計&lt;/h2&gt;&lt;img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbqj9Ii13d6hx5a9kyLnC5A8A96LDSaSZv_w&amp;s" alt="github的logo"&gt;&lt;/img&gt;&lt;style&gt;.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }&lt;/style&gt;&lt;div class='embed-container'&gt;&lt;iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/83g9NFbtR_k?rel=0' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;&lt;/section&gt;</pre>
-<p><br/><br/><br/></p>
+<p><br/><br/><br/><br/><br/></p>
 <p></p>
 <p></p>
-<p><br/><br/></p><h2>w13</h2>
+<p><br/><br/></p>
+<h2>w13</h2>
 <p>-------------------</p>
 <p>Multiplayer Guessing Game</p>
 <p>請猜介於 1 ~ 100 的整數: <br/><br/></p>
@@ -605,7 +865,8 @@ def studlist():
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=9447, debug=True, ssl_context="adhoc")</pre>
-<p></p><h2>w6</h2>
+<p></p>
+<h2>w6</h2>
 <h3>第六週作業內容</h3>
 <ol>
 <li>

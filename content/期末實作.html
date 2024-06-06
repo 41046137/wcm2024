@@ -142,8 +142,264 @@ img.add_border {
           </div>
 
         </header>
-    <div id="tipue_search_content">w13 << <a href='w13.html'>Previous</a> <a href='第六週作業內容.html'>Next</a> >> 第六週作業內容<br /><h1>w6</h1>
-<br />w13 << <a href='w13.html'>Previous</a> <a href='第六週作業內容.html'>Next</a> >> 第六週作業內容</div>
+    <div id="tipue_search_content">專案 << <a href='專案.html'>Previous</a> <a href='Blog.html'>Next</a> >> Blog<br /><h1>期末實作</h1>
+<p>在期末實作中，我利用Portable在近端中使用html和JavaScript，去製作一個小遊戲。<br/>遊戲名稱：五子棋<br/>創建方式：透過AI反覆除錯。</p>
+<p>目前所遇到的問題是，雖然目前版本AI可以進行防禦和進攻了，但是仍然不智慧，不會去設法想進攻和防禦策略，這此版本中，目前是最好的一個版本，雖多次進行改善(20+)，仍然還是問題相同，導致這個遊戲版本，我方獲勝幾乎可以全勝。<br/>以下為他的代碼code，但因為是近端製作的關係，若日後還要再開啟的話，就還是必須要再次把代碼執行，希望往後版本可以改善這個問題。</p>
+<p>遊戲特色：</p>
+<p><img caption="false" height="500" src="./../images/五子棋主畫面.png" width="509"/></p>
+<p>待改善清單：</p>
+<ul>
+<li>AI沒有智慧，不會採去進攻和防禦策略(但玩家在試圖獲勝時，仍然會抵擋，但幾乎沒有效果)</li>
+<li>此版本開啟方式需要整合與調整。調整為大家一般可以開啟的狀態而非使用代碼。</li>
+<li>遊戲介面的更新與調整。(可能會新增更豐富的畫面、獲勝與敗北的動畫、與介面的調整(因目前介面十分簡陋，所以希望可以更加美觀)。</li>
+<li>若AI仍無法像人類一樣有更加多元的防守與進攻策略，那可以新增一些規則來限制人類(如一開始就隨機分配先攻選手，這樣或許可以給予我們一些壓力)。</li>
+<li>待改善AI只會一直列的進攻。</li>
+</ul>
+<p>        待改善清單內容尚更新中...</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;五子棋遊戲&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #board {
+            display: grid;
+            grid-template-columns: repeat(15, 30px);
+            grid-template-rows: repeat(15, 30px);
+            gap: 1px;
+        }
+        .cell {
+            width: 30px;
+            height: 30px;
+            background-color: lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid black;
+        }
+        .piece {
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            background-color: lightgray;
+        }
+        .player {
+            background-color: blue;
+        }
+        .ai {
+            background-color: red;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;五子棋遊戲&lt;/h1&gt;
+    &lt;div id="board"&gt;&lt;/div&gt;
+    &lt;button onclick="resetGame()"&gt;重置遊戲&lt;/button&gt;
+    &lt;p&gt;玩家得分: &lt;span id="playerScore"&gt;0&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;對手得分: &lt;span id="aiScore"&gt;0&lt;/span&gt;&lt;/p&gt;
+
+    &lt;script&gt;
+        const board = document.getElementById('board');
+        const playerScoreElem = document.getElementById('playerScore');
+        const aiScoreElem = document.getElementById('aiScore');
+
+        let boardState = Array(15).fill().map(() =&gt; Array(15).fill(0));
+        let playerScore = 0;
+        let aiScore = 0;
+
+        function createBoard() {
+            board.innerHTML = '';
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    cell.addEventListener('click', playerMove);
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        function playerMove(event) {
+            const x = parseInt(event.target.dataset.x);
+            const y = parseInt(event.target.dataset.y);
+            if (boardState[y][x] === 0) {
+                boardState[y][x] = 1;
+                event.target.appendChild(createPiece('player'));
+                if (checkWinner(1)) {
+                    alert('玩家獲勝！');
+                    playerScore++;
+                    updateScores();
+                    resetGame();
+                    return;
+                }
+                setTimeout(aiMove, 500);
+            }
+        }
+
+        function aiMove() {
+            let move = findWinningMove(2) || findWinningMove(1) || findPotentialThreat(2) || findPotentialThreat(1) || findRandomMove();
+            if (move) {
+                boardState[move.y][move.x] = 2;
+                const cell = board.querySelector(`[data-x='${move.x}'][data-y='${move.y}']`);
+                cell.appendChild(createPiece('ai'));
+                if (checkWinner(2)) {
+                    alert('對手獲勝！');
+                    aiScore++;
+                    updateScores();
+                    resetGame();
+                    return;
+                }
+            }
+        }
+
+        function findWinningMove(player) {
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === 0) {
+                        boardState[y][x] = player;
+                        if (checkWinner(player)) {
+                            boardState[y][x] = 0;
+                            return { x, y };
+                        }
+                        boardState[y][x] = 0;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function findPotentialThreat(player) {
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === 0) {
+                        boardState[y][x] = player;
+                        if (checkPotentialThreat(player)) {
+                            boardState[y][x] = 0;
+                            return { x, y };
+                        }
+                        boardState[y][x] = 0;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function checkPotentialThreat(player) {
+            const directions = [
+                { dx: 1, dy: 0 }, 
+                { dx: 0, dy: 1 }, 
+                { dx: 1, dy: 1 }, 
+                { dx: 1, dy: -1 }
+            ];
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === player) {
+                        for (let { dx, dy } of directions) {
+                            if (checkThreatDirection(x, y, dx, dy, player)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        function checkThreatDirection(x, y, dx, dy, player) {
+            let count = 0;
+            for (let i = 0; i &lt; 5; i++) {
+                const nx = x + i * dx;
+                const ny = y + i * dy;
+                if (nx &gt;= 0 &amp;&amp; nx &lt; 15 &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; 15 &amp;&amp; boardState[ny][nx] === player) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            return count &gt;= 3; // Consider a position a threat if there are 3 in a row
+        }
+
+        function findRandomMove() {
+            let moves = [];
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === 0) {
+                        moves.push({ x, y });
+                    }
+                }
+            }
+            return moves.length ? moves[Math.floor(Math.random() * moves.length)] : null;
+        }
+
+        function createPiece(playerClass) {
+            const piece = document.createElement('div');
+            piece.classList.add('piece', playerClass);
+            return piece;
+        }
+
+        function checkWinner(player) {
+            const directions = [
+                { dx: 1, dy: 0 }, 
+                { dx: 0, dy: 1 }, 
+                { dx: 1, dy: 1 }, 
+                { dx: 1, dy: -1 }
+            ];
+            for (let y = 0; y &lt; 15; y++) {
+                for (let x = 0; x &lt; 15; x++) {
+                    if (boardState[y][x] === player) {
+                        for (let { dx, dy } of directions) {
+                            if (checkDirection(x, y, dx, dy, player)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        function checkDirection(x, y, dx, dy, player) {
+            let count = 0;
+            for (let i = 0; i &lt; 5; i++) {
+                const nx = x + i * dx;
+                const ny = y + i * dy;
+                if (nx &gt;= 0 &amp;&amp; nx &lt; 15 &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; 15 &amp;&amp; boardState[ny][nx] === player) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            return count === 5;
+        }
+
+        function updateScores() {
+            playerScoreElem.textContent = playerScore;
+            aiScoreElem.textContent = aiScore;
+        }
+
+        function resetGame() {
+            boardState = Array(15).fill().map(() =&gt; Array(15).fill(0));
+            createBoard();
+        }
+
+        createBoard();
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p></p><br />專案 << <a href='專案.html'>Previous</a> <a href='Blog.html'>Next</a> >> Blog</div>
 
     <!-- footer -->
       <div class="container">
