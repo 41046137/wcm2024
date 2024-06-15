@@ -316,10 +316,20 @@ def fetch_csv_data():
 fetch_csv_data()</pre>
 <h1>期中期末專案</h1>
 <h2>期末實作</h2>
-<p>在期末實作中，我利用Portable在近端中使用html和JavaScript，去製作一個小遊戲。<br/>遊戲名稱：五子棋<br/>創建方式：透過AI反覆除錯。</p>
+<p>在期末實作中，我利用Portable在近端中使用html和JavaScript，去製作一個小遊戲。<br/>遊戲名稱：五子棋<br/>創建方式：透過AI反覆除錯。<br/>連結網址：<a href="https://64199c36-f1c0-4d5b-aa02-a9e3d1544a18-00-do3t55jb4bel.sisko.replit.dev/index.html">五子棋遊戲</a>  透過replit來進行改版。</p>
 <p>目前所遇到的問題是，雖然目前版本AI可以進行防禦和進攻了，但是仍然不智慧，不會去設法想進攻和防禦策略，這此版本中，目前是最好的一個版本，雖多次進行改善(20+)，仍然還是問題相同，導致這個遊戲版本，我方獲勝幾乎可以全勝。<br/>以下為他的代碼code，但因為是近端製作的關係，若日後還要再開啟的話，就還是必須要再次把代碼執行，希望往後版本可以改善這個問題。</p>
 <p>遊戲特色：</p>
-<p><img caption="false" height="500" src="/images/五子棋主畫面.png" width="509"/></p>
+<p><img alt="" height="500" src="/images/五子棋遊戲畫面22.png" width="666"/></p>
+<p><img caption="false" height="500" src="/images/遊戲菜單2.png" width="664"/></p>
+<p>所在版本內容：</p>
+<ul>
+<li>新增網站式開啟方式</li>
+<li>更新遊戲菜單畫面</li>
+<li>改版五子棋頁面內容</li>
+<li>新增"返回選項"</li>
+</ul>
+<p></p>
+<p></p>
 <p>待改善清單：</p>
 <ul>
 <li>AI沒有智慧，不會採去進攻和防禦策略(但玩家在試圖獲勝時，仍然會抵擋，但幾乎沒有效果)</li>
@@ -329,6 +339,77 @@ fetch_csv_data()</pre>
 <li>待改善AI只會一直列的進攻。</li>
 </ul>
 <p>        待改善清單內容尚更新中...</p>
+<p></p>
+<p></p>
+<p><strong><a href="https://replit.com/join/ujcpxxjiuw-u23097962"><img alt="cool" src="/static/tinymce4/tinymce/plugins/emoticons/img/smiley-cool.gif"/>老師加入這個可以看到Replit的建立內容<img alt="cool" src="/static/tinymce4/tinymce/plugins/emoticons/img/smiley-cool.gif"/></a></strong></p>
+<p></p>
+<p></p>
+<p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 留言板字典，用於存儲留言
+message_board = {}
+
+# 添加留言的函數
+def post_message(username, message):
+    if username not in message_board:
+        message_board[username] = []
+    message_board[username].append(message)
+
+# 顯示所有留言的函數
+def display_messages():
+    for user, messages in message_board.items():
+        print(f"{user}:")
+        for msg in messages:
+            print(f" - {msg}")
+
+# 示例：添加和顯示留言
+post_message('Alice', 'Hello, this is my first message!')
+post_message('Bob', 'Hi Alice, nice to see you here!')
+display_messages()
+</pre>
+<p><br/><br/></p>
+<p></p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false"># 留言板字典，用於存儲留言
+message_board = {}
+
+# 添加留言的函數
+def post_message(username, message):
+    if username not in message_board:
+        message_board[username] = []
+    message_board[username].append(message)
+
+# 顯示所有留言的函數
+def display_messages():
+    for user, messages in message_board.items():
+        print(f"{user}:")
+        for msg in messages:
+            print(f" - {msg}")
+
+# 主函數，用於與用戶互動
+def main():
+    while True:
+        print("1. Post a message")
+        print("2. Display messages")
+        print("3. Quit")
+        choice = input("Choose an option: ")
+        if choice == "1":
+            username = input("Enter your username: ")
+            message = input("Enter your message: ")
+            post_message(username, message)
+        elif choice == "2":
+            display_messages()
+        elif choice == "3":
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+# 運行主函數
+if __name__ == "__main__":
+    main()
+</pre>
+<p><br/><br/></p>
+<p></p>
+<p></p>
+<p></p>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
@@ -572,8 +653,7 @@ fetch_csv_data()</pre>
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-<p></p>
-<h1>Blog</h1>
+<p></p><h1>Blog</h1>
 <h2>上課心得</h2>
 <p>第一週</p>
 <p>   本週講述了課堂模式及規劃、並設立了自己的個人網站。<br/>   利用Replit來建立我們的個人網站、修正網站標題。</p>

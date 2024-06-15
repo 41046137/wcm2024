@@ -345,9 +345,107 @@ fetch_csv_data()</pre>
 <p></p>
 <p></p>
 <p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 留言板字典，用於存儲留言
+message_board = {}
+
+# 添加留言的函數
+def post_message(username, message):
+    if username not in message_board:
+        message_board[username] = []
+    message_board[username].append(message)
+
+# 顯示所有留言的函數
+def display_messages():
+    for user, messages in message_board.items():
+        print(f"{user}:")
+        for msg in messages:
+            print(f" - {msg}")
+
+# 示例：添加和顯示留言
+post_message('Alice', 'Hello, this is my first message!')
+post_message('Bob', 'Hi Alice, nice to see you here!')
+display_messages()
+</pre>
+<p><br/><br/></p>
 <p></p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false"># 留言板字典，用於存儲留言
+message_board = {}
+
+# 添加留言的函數
+def post_message(username, message):
+    if username not in message_board:
+        message_board[username] = []
+    message_board[username].append(message)
+
+# 顯示所有留言的函數
+def display_messages():
+    for user, messages in message_board.items():
+        print(f"{user}:")
+        for msg in messages:
+            print(f" - {msg}")
+
+# 主函數，用於與用戶互動
+def main():
+    while True:
+        print("1. Post a message")
+        print("2. Display messages")
+        print("3. Quit")
+        choice = input("Choose an option: ")
+        if choice == "1":
+            username = input("Enter your username: ")
+            message = input("Enter your message: ")
+            post_message(username, message)
+        elif choice == "2":
+            display_messages()
+        elif choice == "3":
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+# 運行主函數
+if __name__ == "__main__":
+    main()
+</pre>
 <p></p>
-<p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 留言板字典，用於存儲留言
+message_board = {}
+
+# 添加留言的函數
+def post_message(username, message):
+    if username not in message_board:
+        message_board[username] = []
+    message_board[username].append(message)
+
+# 顯示所有留言的函數
+def display_messages():
+    for user, messages in message_board.items():
+        print(f"{user}:")
+        for msg in messages:
+            print(f" - {msg}")
+
+# 主函數，用於與用戶互動
+def main():
+    while True:
+        print("1. Post a message")
+        print("2. Display messages")
+        print("3. Quit")
+        choice = input("Choose an option: ")
+        if choice == "1":
+            username = input("Enter your username: ")
+            message = input("Enter your message: ")
+            post_message(username, message)
+        elif choice == "2":
+            display_messages()
+        elif choice == "3":
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+# 運行主函數
+if __name__ == "__main__":
+    main()
+</pre>
+<p><br/><br/></p>
 <p></p>
 <p></p>
 <p></p>
